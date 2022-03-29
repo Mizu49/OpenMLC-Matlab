@@ -9,6 +9,8 @@ function JJ=multithread_function(idv_to_evaluate,eval_idx,ngen,parameters);
 
     eval(['heval=@' parameters.evaluation_function ';']);
     f=heval;
+
+    % Using `standalone_function.m` instead of `multithread_function` will help you to debug the simulation code.
     parfor i=istart:length(eval_idx);
 
         if verb>1;fprintf('Individual %i from generation %i\n',eval_idx(i),ngen);end
