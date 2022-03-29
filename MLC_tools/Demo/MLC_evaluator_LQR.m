@@ -12,24 +12,33 @@ x0=parameters.problem_variables.x0;
 A=[sigma -omega
    omega sigma];
 
+% Read LISP representation of the control law of the given individual
 m=readmylisp_to_formal_MLC(ind);
+% Replace the state variable in LISP from "S0, S1, ..." to "y(1), y(2), ..." to make it compatible with the control law implementation
 m=strrep(m,'S0','y(1)');
 m=strrep(m,'S1','y(2)');
+
+% Wrap y as b
 b=@(y)(y);
 eval(['b=@(y)([0;' m ']);']);
+
+% Cost function
 f=@(t,y)([A*y(1:2)+b(y(1:2));y(1).^2+y(2).^2+R*sum(b(y).^2)+testt(toc,Tevmax)]);
 J=parameters.badvalue;
+
 try
 tic
+% Run simulation for the current individual
 [T,Y]=ode45(f,[0:dt:Tf],[x0 ;0]');
 if T(end)==Tf
     J=Y(end,3);
 end
 catch
-   
+   % Simulation crashed...
    fprintf('crashed\n');
 end
 
+% Plot the simulation result of current individual
 if nargin>3
     figure(999)
     subplot(3,1,1)
