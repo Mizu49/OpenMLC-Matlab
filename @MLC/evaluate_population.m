@@ -47,6 +47,12 @@ if (mlc.parameters.evaluate_all>0 && mlc.parameters.badvalues_elimswitch)
     if verb>0;fprintf('Starting evaluation of generation %i\n',ngen);end
 else
     eval_idx=find(mlc.population(ngen).fitnesses==-1);                %% select individuals with unknown fitness
+
+    % Detect error in current generation. `find` might failed
+    if isempty(eval_idx)
+        warning('`eval_idx` is empty, possible error in current generation')
+    end
+
     if verb>0;fprintf('Completing evaluation of generation %i\n',ngen);end
 end
 if verb>0;fprintf('%i indivuals to evaluate\n',length(eval_idx));end
