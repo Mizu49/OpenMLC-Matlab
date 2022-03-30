@@ -26,7 +26,8 @@ function f=testt(t,T)
  
     if t>T
         
-   crash % variable is not defined, hence produces an error
+        f = nan; % variable is not defined, hence produces an error
+        error('Simulation terminated')
     else
         f=0;
     end
