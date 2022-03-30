@@ -12,14 +12,19 @@ Tf=parameters.problem_variables.Tf;
 dt=parameters.problem_variables.dt;
 % Weight matrix for the input vector in cost function
 R=parameters.problem_variables.R;
-% threthould for the time evaluation (t > Tevmax). see `testt.m` 
+% time out for the simulation (t > Tevmax). see `testt.m` 
 Tevmax=parameters.problem_variables.Tevmax;
 % Initial value of the state vector
 x0=parameters.problem_variables.x0;
 
 % System matrix
-A=[0 1
+sysA = [0 1
    -stiffness/mass -damping/mass];
+% Control input matrix
+sysB = [
+    0
+    1/mass
+];
 
 %% Formulate control law
 % Read LISP representation of the control law of the given individual
@@ -29,13 +34,13 @@ m=strrep(m,'S0','y(1)');
 m=strrep(m,'S1','y(2)');
 
 % Define control law
-b=@(y)(y);
-eval(['b=@(y)([0;' m ']);']);
+% Converting string representation into MATLAB program
+eval(['b=@(y)(' m ');']);
 
 % Cost function for `ode45`
 f=@(t,y)([
-    A*y(1:2)+b(y(1:2)); % Time evolution of the system
-    y(1).^2+y(2).^2+R*sum(b(y).^2) + testt(toc,Tevmax) % Cost function to be evaluated
+    sysA*y(1:2) + sysB * b(y(1:2)); % Time evolution of the system
+    y(1).^2+y(2).^2+R*sum(b(y).^2) + testt(toc,Tevmax) % Cost function to be evaluated `testt()` is for timeout
 ]);
 J=parameters.badvalue;
 
@@ -55,7 +60,7 @@ end
 
 %% Plot the simulation result of current individual
 if nargin>3
-    figure()
+    figure
     subplot(3,1,1)
     plot(T,Y(:,1:2),'linewidth',1.2)
     legend('a_1','a_2')

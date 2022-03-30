@@ -57,13 +57,15 @@ parameters.show_best = 1;
 
 %% Problem specific parameters
 % Parameters of the controlled system
-parameters.problem_variables.mass = 500;
-parameters.problem_variables.stiffness = 5e4;
+parameters.problem_variables.mass = 1;
+parameters.problem_variables.stiffness = 10;
 parameters.problem_variables.damping = 0;
 
 parameters.problem_variables.Tf = 15;
 parameters.problem_variables.R=1;
 parameters.problem_variables.dt=0.001;
-parameters.problem_variables.Tevmax=10;
+
+% Timeout for simulation (if simulation time exceeds `Tevmax`, then terminate simulation for the current individual)
+parameters.problem_variables.Tevmax=3;
 parameters.problem_variables.x0 = [1e-3;0];
 

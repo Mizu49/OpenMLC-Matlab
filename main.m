@@ -4,7 +4,7 @@ clc
 addpath(genpath('MLC_tools\'))
 addpath(genpath('SpringMassSystem'))
 
-generations = 10;
+generations = 30;
 
 % mlc = MLC('MLC_ex_LQR_problem'); % demo by original developers
 mlc = MLC('MLC_springmass_problem');
