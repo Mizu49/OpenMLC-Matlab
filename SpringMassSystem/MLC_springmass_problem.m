@@ -1,5 +1,7 @@
 % MLC_EX_LQR_PROBLEM parameters scropt for MLC
 % Type mlc=MLC('MLC_ex_LQR_problem') to create corresponding MLC object
+
+%% Settings for the genetic algorithms
 parameters.size = 50;
 parameters.sensors = 2;
 parameters.sensor_spec = 0;
@@ -31,9 +33,9 @@ parameters.selectionmethod = 'tournament';
 parameters.tournamentsize = 7;
 parameters.lookforduplicates = 1;
 parameters.simplify = 0;
-% parameters.evaluation_method = 'multithread_function'; % Use this for parallel computing evaluation
-parameters.evaluation_method = 'standalone_function'; % Use this for parallel computing evaluation
-parameters.evaluation_function = 'MLC_evaluator_LQR';
+parameters.evaluation_method = 'multithread_function'; % Use this for parallel computing evaluation
+% parameters.evaluation_method = 'standalone_function'; % Use this for parallel computing evaluation
+parameters.evaluation_function = 'MLC_evaluator_springmass';
 parameters.indfile = 'ind.dat';
 parameters.Jfile = 'J.dat';
 parameters.exchangedir = '/media/homes/thomas/00_Git_repos/OpenMLC-Matlab/evaluator0';
@@ -52,11 +54,16 @@ parameters.saveincomplete = 1;
 parameters.verbose = 3;
 parameters.fgen = 250;
 parameters.show_best = 1;
-parameters.problem_variables.sigma=1;
-parameters.problem_variables.omega=1;
-parameters.problem_variables.Tf=10;
+
+%% Problem specific parameters
+% Parameters of the controlled system
+parameters.problem_variables.mass = 500;
+parameters.problem_variables.stiffness = 5e4;
+parameters.problem_variables.damping = 0;
+
+parameters.problem_variables.Tf = 15;
 parameters.problem_variables.R=1;
 parameters.problem_variables.dt=0.001;
 parameters.problem_variables.Tevmax=10;
-parameters.problem_variables.x0=[1;0];
+parameters.problem_variables.x0 = [1e-3;0];
 
