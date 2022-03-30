@@ -27,7 +27,7 @@ function f=testt(t,T)
     if t>T
         
         f = nan; % variable is not defined, hence produces an error
-        error('Simulation terminated')
+        error('Simulation timeout')
     else
         f=0;
     end
