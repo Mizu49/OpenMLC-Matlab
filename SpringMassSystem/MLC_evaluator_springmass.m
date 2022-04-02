@@ -61,18 +61,17 @@ end
 %% Plot the simulation result of current individual
 if nargin>3
     figure
-    subplot(3,1,1)
-    plot(T,Y(:,1:2),'linewidth',1.2)
-    legend('a_1','a_2')
+    plot(T,Y(:,1),'linewidth',1.2)
+    legend('a_1')
     ylabel('a_k');
-    subplot(3,1,2)
+    figure;
     m=strrep(m,'y(1)','y(:,1)');
     m=strrep(m,'y(2)','y(:,2)');
     b=@(y)(y);
     eval(['b=@(y)(' m ');']);
     plot(T,b(Y(:,1:2)),'k','linewidth',1.2)
     ylabel('b')
-    subplot(3,1,3)
+    figure;
     plot(T,Y(:,3),'k','linewidth',1.2)
     ylabel('$\int_0^t\frac{dJ}{dt}dt$','interpreter','latex')
     
